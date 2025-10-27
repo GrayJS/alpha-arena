@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # PostgreSQL 数据库服务
+  postgres:
+    image: postgres:15-alpine
+    container_name: alpha_arena_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: alpha_arena
+    ports:
+      - "5432:5432"
+    volumes:
+      # 数据库数据持久化
+      - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - alpha_arena_network
+
+  # 后端服务 - 开发模式
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: alpha_arena_backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      # 数据库配置
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: alpha_arena
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      # JWT 配置
+      JWT_SECRET: development-secret-key
+      JWT_EXPIRES_IN: 7d
+      # CORS 配置
+      CORS_ORIGIN: http://localhost:5173
+      # AI 模型配置
+      SILICONFLOW_ENABLED: ${SILICONFLOW_ENABLED:-false}
+      SILICONFLOW_API_KEY: ${SILICONFLOW_API_KEY:-}
+      DASHSCOPE_ENABLED: ${DASHSCOPE_ENABLED:-false}
+      DASHSCOPE_API_KEY: ${DASHSCOPE_API_KEY:-}
+      TUSHARE_TOKEN: ${TUSHARE_TOKEN:-}
+    ports:
+      - "3000:3000"
+    volumes:
+      # 开发模式：挂载源代码，支持热重载
+      - ./backend/src:/app/src
+      - ./backend/package.json:/app/package.json
+      - ./backend/tsconfig.json:/app/tsconfig.json
+      - ./backend/.env:/app/.env:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - alpha_arena_network
+
+  # 前端服务 - 开发模式
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: alpha_arena_frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    volumes:
+      # 开发模式：挂载源代码
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+      - ./frontend/package.json:/app/package.json
+      - ./frontend/vite.config.ts:/app/vite.config.ts
+      - ./frontend/tsconfig.json:/app/tsconfig.json
+      - ./frontend/tsconfig.node.json:/app/tsconfig.node.json
+    environment:
+      VITE_API_URL: http://localhost:3000
+    networks:
+      - alpha_arena_network
+
+networks:
+  alpha_arena_network:
+    driver: bridge

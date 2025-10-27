@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  # PostgreSQL 数据库服务
+  postgres:
+    image: postgres:15-alpine
+    container_name: alpha_arena_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: alpha_arena
+    ports:
+      - "5432:5432"
+    volumes:
+      # 数据库数据持久化 - 映射到主机 ./data/postgres
+      - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - alpha_arena_network
+
+  # 后端服务
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: alpha_arena_backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      # 数据库配置 - 使用服务名连接
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: alpha_arena
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      # JWT 配置
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-this-in-production}
+      JWT_EXPIRES_IN: 7d
+      # CORS 配置 - 允许前端访问
+      CORS_ORIGIN: http://localhost
+      # AI 模型配置（从主机环境变量读取）
+      SILICONFLOW_ENABLED: ${SILICONFLOW_ENABLED:-false}
+      SILICONFLOW_API_KEY: ${SILICONFLOW_API_KEY:-}
+      SILICONFLOW_BASE_URL: ${SILICONFLOW_BASE_URL:-https://api.siliconflow.cn/v1}
+      SILICONFLOW_MODELS: ${SILICONFLOW_MODELS:-deepseek-chat,deepseek-coder}
+      DASHSCOPE_ENABLED: ${DASHSCOPE_ENABLED:-false}
+      DASHSCOPE_API_KEY: ${DASHSCOPE_API_KEY:-}
+      DASHSCOPE_BASE_URL: ${DASHSCOPE_BASE_URL:-https://dashscope.aliyuncs.com/api/v1}
+      DASHSCOPE_MODELS: ${DASHSCOPE_MODELS:-qwen-turbo,qwen-plus,qwen-max}
+      # Tushare API
+      TUSHARE_TOKEN: ${TUSHARE_TOKEN:-}
+    ports:
+      - "3000:3000"
+    volumes:
+      # 映射环境配置文件（可选）
+      - ./backend/.env:/app/.env:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - alpha_arena_network
+
+  # 前端服务
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:3000
+    container_name: alpha_arena_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - alpha_arena_network
+
+networks:
+  alpha_arena_network:
+    driver: bridge
+
+volumes:
+  # PostgreSQL 数据卷
+  postgres_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./data/postgres
+      o: bind

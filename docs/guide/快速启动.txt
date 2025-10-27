@@ -1,0 +1,90 @@
+Alpha Arena · A股版 - 快速启动指南
+====================================
+
+项目已完成基础框架搭建！
+
+📁 项目结构
+------------
+✅ 后端服务 (backend/)
+✅ 前端应用 (frontend/)
+✅ 数据库模型
+✅ API 控制器
+✅ 种子数据
+
+📦 已安装的依赖
+-------------
+✅ 后端依赖已安装
+✅ 前端依赖已安装
+
+🚀 接下来的步骤
+-------------
+
+1. 创建 PostgreSQL 数据库
+
+   在 PostgreSQL 客户端执行：
+   CREATE DATABASE alpha_arena;
+
+2. 配置环境变量
+
+   复制 env.example 文件创建 .env：
+   
+   使用 PowerShell:
+   cd backend
+   Copy-Item env.example .env
+   
+   然后编辑 .env 文件，设置数据库密码：
+   DB_PASSWORD=您的数据库密码
+
+3. 启动项目
+
+   方法1：同时启动前后端
+   npm run dev
+   
+   方法2：分别启动
+   cd backend
+   npm run dev  # 后端服务在端口 3000
+   
+   cd frontend  
+   npm run dev  # 前端服务在端口 5173
+
+4. 访问应用
+
+   前端：http://localhost:5173
+   后端 API：http://localhost:3000
+   健康检查：http://localhost:3000/health
+   API 示例：http://localhost:3000/api/models
+
+📄 详细文档
+-------------
+• README.md - 项目总览
+• START.md - 详细启动指南
+• DEVELOPMENT.md - 开发指南
+• PROJECT_STATUS.md - 项目状态
+• QUICKSTART.md - 快速开始
+
+💡 提示
+-------
+1. 数据库配置是必需的
+2. 项目使用模拟数据，无需配置数据源
+3. 开发模式下会自动初始化测试数据
+4. 详细说明请查看 START.md 文件
+
+🎯 已实现的功能
+---------------
+✅ 项目结构搭建
+✅ 后端 API 框架
+✅ 前端页面框架
+✅ 数据库模型定义
+✅ 种子数据
+✅ 日志系统
+✅ 定时任务框架
+
+⏳ 待完成功能
+---------------
+□ 完整API逻辑
+□ 数据源集成
+□ 真实交易模拟
+□ 前端数据集成
+
+感谢使用 Alpha Arena！
+

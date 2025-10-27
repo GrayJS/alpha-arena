@@ -1,0 +1,56 @@
+# 排除 node_modules
+**/node_modules
+**/node_modules/**
+node_modules/
+
+# 排除构建产物
+**/dist
+**/.next
+**/build
+*.log
+
+# 排除开发配置文件
+.env
+.env.local
+.env.development
+.env.production
+
+# 排除 Git 文件
+.git
+.gitignore
+.gitattributes
+
+# 排除文档
+**/*.md
+docs/
+README.md
+
+# 排除测试文件
+**/__tests__
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+
+# 排除 IDE 配置文件
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# 排除其他文件
+.DS_Store
+Thumbs.db
+*.cache
+
+# 排除数据目录
+data/
+*.db
+*.sqlite
+
+# 排除脚本文件
+*.sh
+*.ps1
+setup.ps1
+start.ps1
