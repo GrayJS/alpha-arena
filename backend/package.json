@@ -10,7 +10,8 @@
     "lint": "eslint src --ext .ts",
     "db:migrate": "sequelize-cli db:migrate",
     "db:seed": "sequelize-cli db:seed:all",
-    "db:seed:undo": "sequelize-cli db:seed:undo:all"
+    "db:seed:undo": "sequelize-cli db:seed:undo:all",
+    "db:reset": "ts-node src/utils/resetDatabase.ts"
   },
   "keywords": [
     "ai",

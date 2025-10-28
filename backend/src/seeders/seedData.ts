@@ -9,27 +9,27 @@ export const seedData = async () => {
   try {
     logger.info('开始初始化种子数据...');
 
-    // 创建模型
+    // 创建模型 - 基于实际支持的AI模型
     const models = await AIModel.bulkCreate([
       {
-        name: 'GPT-4 量化策略',
-        algorithm: 'GPT-4',
-        description: '基于GPT-4的智能量化策略',
-        riskProfile: 'aggressive',
-        isActive: true
-      },
-      {
-        name: 'XGBoost 预测模型',
-        algorithm: 'XGBoost',
-        description: '使用XGBoost进行股票价格预测',
+        name: 'DeepSeek Chat',
+        algorithm: 'siliconflow:deepseek-chat',
+        description: '基于硅基流动 DeepSeek Chat 的智能量化策略',
         riskProfile: 'moderate',
         isActive: true
       },
       {
-        name: 'LSTM 时序预测',
-        algorithm: 'LSTM',
-        description: '基于LSTM的时序预测模型',
-        riskProfile: 'conservative',
+        name: '通义千问 Turbo',
+        algorithm: 'dashscope:qwen-turbo',
+        description: '基于阿里云通义千问 Turbo 的快速决策模型',
+        riskProfile: 'moderate',
+        isActive: true
+      },
+      {
+        name: '通义千问 Plus',
+        algorithm: 'dashscope:qwen-plus',
+        description: '基于阿里云通义千问 Plus 的高级分析模型',
+        riskProfile: 'aggressive',
         isActive: true
       }
     ]);
