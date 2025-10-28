@@ -51,7 +51,7 @@ services:
       SILICONFLOW_MODELS: ${SILICONFLOW_MODELS:-deepseek-chat,deepseek-coder}
       DASHSCOPE_ENABLED: ${DASHSCOPE_ENABLED:-false}
       DASHSCOPE_API_KEY: ${DASHSCOPE_API_KEY:-}
-      DASHSCOPE_BASE_URL: ${DASHSCOPE_BASE_URL:-https://dashscope.aliyuncs.com/api/v1}
+      DASHSCOPE_BASE_URL: ${DASHSCOPE_BASE_URL:-https://dashscope.aliyuncs.com/compatible-mode/v1}
       DASHSCOPE_MODELS: ${DASHSCOPE_MODELS:-qwen-turbo,qwen-plus,qwen-max}
       # Tushare API
       TUSHARE_TOKEN: ${TUSHARE_TOKEN:-}

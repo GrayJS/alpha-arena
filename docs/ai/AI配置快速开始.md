@@ -64,7 +64,7 @@ SILICONFLOW_MODELS=deepseek-chat,deepseek-coder
 # 阿里云
 DASHSCOPE_ENABLED=true
 DASHSCOPE_API_KEY=sk-yyyy
-DASHSCOPE_BASE_URL=https://dashscope.aliyuncs.com/api/v1
+DASHSCOPE_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
 DASHSCOPE_MODELS=qwen-turbo,qwen-plus
 ```
 

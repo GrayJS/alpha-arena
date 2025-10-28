@@ -53,7 +53,7 @@ export function loadAIProvidersConfig(): Record<string, AIProviderConfig> {
       name: 'dashscope',
       displayName: '阿里云百炼模型服务',
       apiKey: process.env.DASHSCOPE_API_KEY || '',
-      baseUrl: process.env.DASHSCOPE_BASE_URL || 'https://dashscope.aliyuncs.com/api/v1',
+      baseUrl: process.env.DASHSCOPE_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1',
       models: parseModels(
         process.env.DASHSCOPE_MODELS,
         ['qwen-turbo', 'qwen-plus', 'qwen-max']

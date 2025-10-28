@@ -51,7 +51,7 @@ DASHSCOPE_ENABLED=true
 DASHSCOPE_API_KEY=sk-xxxxxxxxxxxxx
 
 # API地址（可选）
-DASHSCOPE_BASE_URL=https://dashscope.aliyuncs.com/api/v1
+DASHSCOPE_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
 
 # 支持的模型列表（可自定义）
 DASHSCOPE_MODELS=qwen-turbo,qwen-plus,qwen-max

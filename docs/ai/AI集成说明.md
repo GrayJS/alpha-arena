@@ -19,7 +19,7 @@
 **特性**:
 - 模型：qwen-turbo
 - 提供商：阿里云
-- API地址：https://dashscope.aliyuncs.com/api/v1
+- API地址：https://dashscope.aliyuncs.com/compatible-mode/v1
 - 主要用途：智能决策和趋势预测
 
 ---

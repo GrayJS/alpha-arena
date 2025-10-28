@@ -36,7 +36,7 @@ SILICONFLOW_BASE_URL=https://api.siliconflow.cn/v1
 # 阿里云配置
 DASHSCOPE_ENABLED=true                      # 启用此提供商
 DASHSCOPE_API_KEY=sk-xxxxxxxxxxxxx          # API密钥
-DASHSCOPE_BASE_URL=https://dashscope.aliyuncs.com/api/v1
+DASHSCOPE_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
 ```
 
 ### 2. 模型配置
