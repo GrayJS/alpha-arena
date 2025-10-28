@@ -1,5 +1,5 @@
 import AIService, { AIRequest } from './BaseAIService';
-import { AIModel } from '../../models/Model';
+import AIModel from '../../models/Model';
 import logger from '../../utils/logger';
 
 /**

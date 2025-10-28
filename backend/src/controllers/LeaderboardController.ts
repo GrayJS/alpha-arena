@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
-import { Op } from 'sequelize';
 import { AIModel, Account, Trade } from '../models';
-import { calculateTotalReturn, calculateSharpeRatio, calculateMaxDrawdown, calculateWinRate } from '../services/tradeCalculator';
+import { calculateSharpeRatio, calculateMaxDrawdown, calculateWinRate } from '../services/tradeCalculator';
 import logger from '../utils/logger';
 
 /**
@@ -14,7 +13,7 @@ class LeaderboardController {
    */
   async getLeaderboard(req: Request, res: Response) {
     try {
-      const { sortBy = 'return', sortOrder = 'desc', period = 'total' } = req.query;
+      const { sortBy = 'return', sortOrder = 'desc' } = req.query;
 
       // 获取所有活跃模型
       const models = await AIModel.findAll({

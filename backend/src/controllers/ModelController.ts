@@ -105,7 +105,8 @@ class ModelController {
         name,
         algorithm,
         description,
-        riskProfile
+        riskProfile,
+        isActive: true
       });
 
       res.status(201).json({

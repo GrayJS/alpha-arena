@@ -39,7 +39,7 @@ export async function generateMockNavData(modelId: number, days: number = 180) {
       totalAssets: Math.round(totalAssets),
       cash: Math.round(cash),
       positions: Math.round(positions),
-      date: date.toISOString().split('T')[0]
+      date: date as any
     });
   }
 
@@ -96,7 +96,7 @@ export async function generateMockTrades(modelId: number, days: number = 180) {
         price: parseFloat(price.toFixed(2)),
         volume,
         amount: Math.round(price * volume),
-        date: date.toISOString().split('T')[0]
+        date: date as any
       });
 
       holdingPositions.push({
@@ -129,7 +129,7 @@ export async function generateMockTrades(modelId: number, days: number = 180) {
         amount: Math.round(sellPrice * volume),
         pnl: parseFloat(pnl.toFixed(2)),
         holdingDays,
-        date: date.toISOString().split('T')[0]
+        date: date as any
       });
     }
   }

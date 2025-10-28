@@ -4,7 +4,7 @@
  */
 import { BaseProvider, AIRequest, AIResponse } from './providers/BaseProvider';
 import { ProviderFactory } from './ProviderFactory';
-import { AIModel } from '../../models/Model';
+import AIModel from '../../models/Model';
 import logger from '../../utils/logger';
 
 export interface AIModelConfig {

@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import AIModelController from '../services/ai/AIModelController';
-import { AIModel } from '../models/Model';
+import AIModel from '../models/Model';
 import { ProviderFactory } from '../services/ai/ProviderFactory';
 import { getAvailableModels } from '../config/aiProviders';
 import logger from '../utils/logger';
