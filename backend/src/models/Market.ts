@@ -16,7 +16,7 @@ interface MarketAttributes {
   amount: number; // 成交额
   change: number; // 涨跌额
   changePercent: number; // 涨跌幅
-  date: Date; // 日期
+  date: Date | string; // 日期（支持Date对象或字符串）
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -41,7 +41,7 @@ class Market extends Model<MarketAttributes, MarketCreationAttributes> implement
   public amount!: number;
   public change!: number;
   public changePercent!: number;
-  public date!: Date;
+  public date!: Date | string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }

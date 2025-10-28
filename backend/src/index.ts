@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { sequelize } from './config/database';
+import { AIModel } from './models';
 import logger from './utils/logger';
 import routes from './routes';
 import { initializeScheduler } from './scheduler/tasks';
@@ -64,11 +65,12 @@ const startServer = async () => {
 
     // 同步数据库模型（开发环境）
     if (process.env.NODE_ENV === 'development') {
-      await sequelize.sync({ alter: true });
+      // 使用 force: false 避免自动修改表结构
+      await sequelize.sync({ force: false });
       logger.info('数据库模型已同步');
 
       // 初始化种子数据（如果数据库为空）
-      const modelCount = await sequelize.models['models'].count();
+      const modelCount = await AIModel.count();
       if (modelCount === 0) {
         await seedData();
         logger.info('种子数据初始化完成');
