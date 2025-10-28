@@ -106,15 +106,76 @@ class LeaderboardController {
    */
   async getTopModels(req: Request, res: Response) {
     try {
-      const { limit = 5 } = req.query;
+      const { limit = 5, sortBy = 'return', sortOrder = 'desc' } = req.query as any;
 
-      const response = await this.getLeaderboard(req, res);
+      // 复用排行榜计算逻辑
+      const models = await AIModel.findAll({
+        where: { isActive: true }
+      });
 
-      // 注意：这里需要修改逻辑，因为我们已经在控制器内部
-      // 暂时返回成功响应
+      const leaderboard = await Promise.all(
+        models.map(async (model) => {
+          const latestAccount = await Account.findOne({
+            where: { modelId: model.id },
+            order: [['date', 'DESC']]
+          });
+
+          const allAccounts = await Account.findAll({
+            where: { modelId: model.id },
+            order: [['date', 'ASC']]
+          });
+
+          const trades = await Trade.findAll({
+            where: { modelId: model.id }
+          });
+
+          const navs = allAccounts.map(acc => Number(acc.nav));
+          const currentNav = latestAccount ? Number(latestAccount.nav) : 1;
+          const totalReturn = currentNav - 1;
+          const returns = navs.length > 1
+            ? navs.slice(1).map((nav, i) => (nav - navs[i]) / navs[i])
+            : [];
+          const sharpeRatio = returns.length > 0 ? calculateSharpeRatio(returns) : 0;
+          const { maxDrawdown } = calculateMaxDrawdown(navs);
+          const winRate = calculateWinRate(trades);
+
+          return {
+            modelId: model.id,
+            modelName: model.name,
+            algorithm: model.algorithm,
+            riskProfile: model.riskProfile,
+            currentNav: currentNav.toFixed(4),
+            totalReturn: (totalReturn * 100).toFixed(2),
+            sharpeRatio: sharpeRatio.toFixed(2),
+            maxDrawdown: maxDrawdown.toFixed(2),
+            winRate: `${winRate.toFixed(2)}%`,
+            totalTrades: trades.length,
+            startDate: allAccounts[0]?.date || null,
+            endDate: allAccounts[allAccounts.length - 1]?.date || null
+          };
+        })
+      );
+
+      const sorted = leaderboard.sort((a, b) => {
+        let comparison = 0;
+        if (sortBy === 'return') {
+          comparison = parseFloat(a.totalReturn) - parseFloat(b.totalReturn);
+        } else if (sortBy === 'sharpe') {
+          comparison = parseFloat(a.sharpeRatio) - parseFloat(b.sharpeRatio);
+        } else if (sortBy === 'drawdown') {
+          comparison = parseFloat(a.maxDrawdown) - parseFloat(b.maxDrawdown);
+        } else {
+          // 默认按收益
+          comparison = parseFloat(a.totalReturn) - parseFloat(b.totalReturn);
+        }
+        return sortOrder === 'desc' ? -comparison : comparison;
+      });
+
+      const topN = sorted.slice(0, Number(limit));
+
       res.json({
         code: 0,
-        data: [],
+        data: topN,
         message: 'success'
       });
     } catch (error) {

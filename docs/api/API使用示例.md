@@ -272,6 +272,13 @@ GET /api/leaderboard/top
 
 **查询参数**:
 - `limit`: 返回数量（默认 5）
+- `sortBy`: 排序字段（return/sharpe/drawdown）
+- `sortOrder`: 排序顺序（asc/desc）
+
+**示例**:
+```bash
+curl "http://localhost:3000/api/leaderboard/top?limit=3&sortBy=sharpe&sortOrder=desc"
+```
 
 ---
 
@@ -312,6 +319,8 @@ GET /api/markets/indices
   "message": "success"
 }
 ```
+
+> 说明：开发环境该端点返回基于时间种子的模拟数据。
 
 ---
 

@@ -25,10 +25,35 @@ function MarketIndices() {
         
         if (response.data) {
           const indicesData = response.data;
+          
+          // 计算涨跌幅百分比
+          const calculatePercent = (price: number, change: number): number => {
+            const prevPrice = price - change;
+            return prevPrice !== 0 ? (change / prevPrice) * 100 : 0;
+          };
+          
           const formattedIndices = [
-            { code: '000001', ...indicesData.sh },
-            { code: '399001', ...indicesData.sz },
-            { code: '399006', ...indicesData.cyb }
+            { 
+              code: indicesData.sh.code, 
+              name: indicesData.sh.name,
+              price: indicesData.sh.price,
+              change: indicesData.sh.change,
+              changePercent: calculatePercent(indicesData.sh.price, indicesData.sh.change)
+            },
+            { 
+              code: indicesData.sz.code, 
+              name: indicesData.sz.name,
+              price: indicesData.sz.price,
+              change: indicesData.sz.change,
+              changePercent: calculatePercent(indicesData.sz.price, indicesData.sz.change)
+            },
+            { 
+              code: indicesData.cyb.code, 
+              name: indicesData.cyb.name,
+              price: indicesData.cyb.price,
+              change: indicesData.cyb.change,
+              changePercent: calculatePercent(indicesData.cyb.price, indicesData.cyb.change)
+            }
           ];
           setIndices(formattedIndices);
         }

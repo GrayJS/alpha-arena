@@ -37,8 +37,11 @@ export const getLeaderboard = async (params?: LeaderboardParams) => {
 /**
  * 获取Top N模型
  */
-export const getTopModels = async (limit: number = 5) => {
-  const response = await api.get('/leaderboard/top', { params: { limit } });
+export const getTopModels = async (params?: { limit?: number; sortBy?: 'return' | 'sharpe' | 'drawdown'; sortOrder?: 'asc' | 'desc' }) => {
+  const { limit = 5, sortBy = 'return', sortOrder = 'desc' } = params || {};
+  const response = await api.get<ApiResponse<LeaderboardItem[]>>('/leaderboard/top', { 
+    params: { limit, sortBy, sortOrder } 
+  });
   return response.data;
 };
 
