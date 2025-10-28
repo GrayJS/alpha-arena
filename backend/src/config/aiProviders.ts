@@ -51,7 +51,7 @@ export function loadAIProvidersConfig(): Record<string, AIProviderConfig> {
     },
     dashscope: {
       name: 'dashscope',
-      displayName: '阿里云灵积模型服务',
+      displayName: '阿里云百炼模型服务',
       apiKey: process.env.DASHSCOPE_API_KEY || '',
       baseUrl: process.env.DASHSCOPE_BASE_URL || 'https://dashscope.aliyuncs.com/api/v1',
       models: parseModels(

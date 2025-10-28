@@ -190,7 +190,7 @@ curl http://localhost:3000/api/ai/providers
     },
     {
       "name": "dashscope",
-      "displayName": "阿里云灵积模型服务",
+      "displayName": "阿里云百炼模型服务",
       "models": ["qwen-turbo", "qwen-plus"],
       "enabled": true
     }

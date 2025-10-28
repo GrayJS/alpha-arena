@@ -2,7 +2,7 @@ import { BaseProvider, AIRequest, AIResponse, ProviderConfig } from './BaseProvi
 import logger from '../../../utils/logger';
 
 /**
- * 阿里云灵积模型服务提供商
+ * 阿里云百炼模型服务提供商
  */
 export class DashScopeProvider extends BaseProvider {
   constructor(config: ProviderConfig, modelName: string = 'qwen-turbo') {
