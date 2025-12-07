@@ -9,6 +9,7 @@ import Market from '../models/Market';
 
 // Tushare API 配置
 const TUSHARE_TOKEN = process.env.TUSHARE_TOKEN || '';
+logger.info('Tushare Token: %s', TUSHARE_TOKEN);
 const TUSHARE_API_URL = 'http://api.tushare.pro';
 
 /**
@@ -31,10 +32,12 @@ const callTushareAPI = async (api_name: string, params: any): Promise<any> => {
       return response.data.data;
     } else {
       logger.error(`Tushare API调用失败: ${response.data?.msg || '未知错误'}`);
+      console.log('response.data', response.data);
       return null;
     }
   } catch (error) {
     logger.error('Tushare API请求失败:', error);
+    console.log('error', error);
     return null;
   }
 };
